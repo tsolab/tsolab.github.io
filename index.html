@@ -1,59 +1,362 @@
-<p>Hello world</p>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>学术工作台 · 导航</title>
+  <meta name="description" content="个人学术导航：文献检索、专利检索、标准查询、项目管理、重要期刊、发表论文、文件交互、人工智能与其他工具" />
+  <style>
+    :root{
+      --bg:#f7f7f8;
+      --panel:#ffffff;
+      --text:#1f2533;
+      --muted:#667085;
+      --primary:#1f4b99; /* 交通工程蓝 */
+      --primary-weak:#e7efff;
+      --card-border:rgba(31,75,153,0.12);
+      --ring: rgba(31,75,153,0.3);
+      --radius:18px;
+      --shadow:0 6px 28px rgba(16, 24, 40, 0.08);
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei", sans-serif;
+      color:var(--text);
+      background:var(--bg);
+      line-height:1.55;
+    }
+    h1,h2,h3{font-family: Georgia, "Times New Roman", "Noto Serif SC", "Source Han Serif SC", serif; letter-spacing:.2px}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    header{
+      position:sticky; top:0; z-index:100;
+      backdrop-filter: saturate(1.2) blur(8px);
+      background: color-mix(in oklab, var(--bg) 80%, white 20%);
+      border-bottom:1px solid #eaeaea;
+    }
+    .header-inner{max-width:1100px;margin:0 auto;padding:14px 24px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+    .brand{font-weight:700;color:var(--primary);font-size:20px;letter-spacing:.3px}
+    .spacer{flex:1}
+    .kbd{display:inline-block;padding:2px 6px;border:1px solid #d0d5dd;border-radius:6px;font-size:12px;color:#475467;background:#fff}
 
-<p>文件传输</p>
-<ul>
-  <li> <a href="https://filehelper.weixin.qq.com/">微信文件传输助手</a> </li>
-</ul>
+    /* search bar */
+    .search-bar{display:flex;gap:8px;align-items:center;width:100%;}
+    .search{flex:1;display:flex; gap:8px; align-items:center; background:var(--panel); padding:10px; border-radius:12px; box-shadow: var(--shadow); border:1px solid var(--card-border)}
+    .search select,.search input{border:none;outline:none;background:transparent}
+    .search select{padding:8px;border-right:1px dashed #dee2e6}
+    .search input{flex:1;padding:10px;font-size:15px}
+    .search button{border:none;background:var(--primary);color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer}
+    .search button:hover{filter:brightness(0.95)}
 
-<p>人工智能</p>
-<ul>
-  <li> <a href="https://chatgpt.com/">CHATGPT</a> </li>
-  <li> <a href="https://deepseek.com/">DEEPSEEK</a> </li>
-  <li> <a href="https://gemini.google.com/">GEMINI</a> </li> 
-</ul>
+    /* sections */
+    section{margin-top:28px}
+    .section-head{display:flex;align-items:baseline;gap:12px;margin:8px 0 16px}
+    .section-head h2{margin:0;font-size:22px}
+    .section-head .note{color:var(--muted);font-size:14px}
 
-<p>文献检索</p>
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    @media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){.grid{grid-template-columns:1fr}}
 
-<ul>
-  <li> <a href="https://scholar.google.com/">Google学术</a> </li>
-  <li> <a href="https://xueshu.baidu.com/">百度学术</a> </li>
-  <li> <a href="http://mv616.xyz/">文献检索</a> </li>
-  <li> <a href="http://www.xuebalib.com/">文献检索（已经失效）</a> </li>
-  <li> <a href="http://sfx-86ali.hosted.exlibrisgroup.com/index.html">中外核心期刊查询系统</a> </li>   
-  <li> <a href="http://www.soopat.com/">专利检索</a> </li> 
-  <li> <a href="https://cpquery.cponline.cnipa.gov.cn/chinesepatent/index/">专利局检索</a> </li> 
-  <li> <a href="http://www.csres.com/">各类标准检索</a> </li>
-  <li> <a href="http://jjg.spc.org.cn/resmea/view/index#">国家计量技术规范查询</a> </li> 
-  <li> <a href="http://jtst.mot.gov.cn/search/std?q=">交通运输标准规范查询</a> </li>   
-  <li> <a href="http://www.jsjlw.com/flfg/flfg2.aspx">江苏省计量技术规范查询</a> </li> 
-  <li> <a href="https://openstd.samr.gov.cn/bzgk/gb/">国家标准查询</a> </li>
-  <li> <a href="https://www.scihub.net.cn">SCIHUB</a> </li> 
-  
-</ul>
+    .card{background:var(--panel);border:1px solid var(--card-border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);transition:transform .12s ease, box-shadow .12s ease}
+    .card:hover{transform:translateY(-1px); box-shadow: 0 10px 34px rgba(16,24,40,.12)}
+    .card a{color:var(--primary);text-decoration:none;word-break:break-all}
+    .card a:hover{ text-decoration:underline }
+    .card .title{font-weight:600;margin-bottom:6px}
+    .card .desc{color:var(--muted);font-size:13px}
 
-<p>重要期刊</p>
-<ul>
-  <li> <a href="http://zgglxb.chd.edu.cn/">中国公路学报</a> </li>
-  <li> <a href="http://www.gljtkj.com/">公路交通科技</a> </li>
-  <li> <a href="https://www.editorialmanager.com/trr/default.aspx">Transportation Research Record</a> </li>  
-  <li> <a href="https://academic.oup.com/tse?login=false">Transportation Safety and Environment</a> </li>  
-  <li> <a href="https://www.editorialmanager.com/jtte/default1.aspx">Journal of Traffic and Transportation Engineering</a> </li>  
-</ul>
+    .tools-panel{background:var(--panel);border:1px solid var(--card-border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+    .tools-flex{display:flex;flex-wrap:wrap; gap:16px}
+    .tool{flex:1 1 320px}
+    .tool h3{margin:0 0 8px;font-size:18px}
+    .tool .row{display:flex;gap:8px;align-items:center}
+    .tool input[type="text"], .tool input[type="search"], .tool textarea{width:100%;padding:10px;border:1px solid #d0d5dd;border-radius:10px;outline:none}
+    .tool textarea{min-height:80px;resize:vertical}
+    .btn{background:var(--primary);color:#fff;border:none;border-radius:10px;padding:10px 12px;cursor:pointer}
+    .btn.secondary{background:var(--primary-weak);color:var(--primary)}
+    .btn:focus{box-shadow:0 0 0 3px var(--ring)}
 
-<p>其他工具</p>
-<ul>
-  <li> <a href="https://translate.google.cn/">Google翻译（已经失效）</a> </li>
-  <li> <a href="https://grants.nsfc.gov.cn/">国家自然科学基金管理信息系统</a> </li>   
-  <li> <a href="https://service.most.gov.cn/">国家科技管理信息系统公共服务平台</a> </li> 
-  <li> <a href="https://www.termonline.cn/index/">术语在线</a> </li> 
-  <li> <a href="https://github.com/">Github</a> </li>  
-  <li> <a href="http://quickconnect.cn/floder224/">工作文件</a> </li> 
-  <li> <a href="https://app.diagrams.net/">流程图绘制DRAWIO</a> </li>
-</ul>
+    footer{margin:36px 0 22px;color:var(--muted);text-align:center}
+    .anchors{display:flex;gap:10px;flex-wrap:wrap}
+    .anchors a{background:var(--primary-weak); color:var(--primary); text-decoration:none; padding:6px 10px; border-radius:999px; font-size:13px; border:1px solid #d6e4ff}
+    .anchors a:hover{filter:brightness(.96)}
 
-<p>论文</p>
-<ul>
-  <li> <a href="http://zgglxb.chd.edu.cn/CN/10.19721/j.cnki.1001-7372.2022.05.020">Static Influence of Pavement Roughness in Measuring Coefficient of Retroreflected Luminance in Road Traffic Markings</a> </li>
-  <li> <a href="https://doi.org/10.1093/tse/tdac039">Establishment of a metric to characterize retroreflector properties using a consumer-grade colour camera</a> </li>
-  <li> <a href="https://doi.org/10.1177/03611981221145135">LiDAR Perception and Evaluation Method for Road Traffic Marking Retroreflection</a> </li>
-</ul>
+    /* small helper badge */
+    .badge{display:inline-block;padding:2px 6px;border-radius:999px;background:#eef2ff;color:#4f46e5;font-size:12px;border:1px solid #dfe3ff}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="brand">学术工作台 · 导航</div>
+      <div class="spacer"></div>
+      <div class="anchors">
+        <a href="#lit">文献检索</a>
+        <a href="#patent">专利检索</a>
+        <a href="#std">标准查询</a>
+        <a href="#proj">项目管理</a>
+        <a href="#journals">重要期刊</a>
+        <a href="#pubs">发表论文</a>
+        <a href="#files">文件交互</a>
+        <a href="#ai">人工智能</a>
+        <a href="#misc">其他工具</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 全局聚合搜索 -->
+    <section>
+      <div class="section-head">
+        <h2>全局搜索</h2>
+        <span class="note">选择平台后输入关键词，回车或点击搜索。<span class="badge">快捷键 /</span></span>
+      </div>
+      <div class="search-bar">
+        <div class="search" role="search">
+          <select id="engine">
+            <option value="google">Google</option>
+            <option value="scholar">Google Scholar</option>
+            <option value="baidu_xueshu">百度学术</option>
+            <option value="arxiv">arXiv</option>
+          </select>
+          <input id="q" type="search" placeholder="检索：标题 / 关键词 / 作者 / DOI……" aria-label="全局搜索" />
+          <button id="go" class="btn" title="搜索">搜索</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOI → 引用（近似 GB/T 7714-2015） -->
+    <section>
+      <div class="section-head">
+        <h2>引用生成器</h2>
+        <span class="note">输入 DOI，一键生成 <span class="badge">近似 GB/T 7714-2015</span> 格式（期刊条目）。</span>
+      </div>
+      <div class="tools-panel">
+        <div class="tools-flex">
+          <div class="tool">
+            <h3>DOI 输入</h3>
+            <div class="row">
+              <input id="doi-input" type="text" placeholder="例如：10.1177/03611981221145135" />
+              <button id="doi-fetch" class="btn">生成引用</button>
+              <button id="doi-copy" class="btn secondary">复制</button>
+            </div>
+          </div>
+          <div class="tool">
+            <h3>输出（可编辑）</h3>
+            <textarea id="cite-output" placeholder="生成结果会出现在这里，可手动微调"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 文献检索 -->
+    <section id="lit">
+      <div class="section-head"><h2>文献检索</h2><span class="note">常用学术搜索入口</span></div>
+      <div class="grid">
+        <div class="card"><div class="title"><a href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a></div><div class="desc">跨学科文献检索与引用追踪</div></div>
+        <div class="card"><div class="title"><a href="https://xueshu.baidu.com/" target="_blank" rel="noopener">百度学术</a></div><div class="desc">中文学术检索与学者图谱</div></div>
+      </div>
+    </section>
+
+    <!-- 专利检索 -->
+    <section id="patent">
+      <div class="section-head"><h2>专利检索</h2><span class="note">国家知识产权局等</span></div>
+      <div class="grid">
+        <div class="card"><div class="title"><a href="https://cpquery.cponline.cnipa.gov.cn/chinesepatent/index/" target="_blank" rel="noopener">中国专利公开审查信息查询</a></div><div class="desc">国家知识产权局 · 检索与法律状态</div></div>
+      </div>
+    </section>
+
+    <!-- 标准查询 -->
+    <section id="std">
+      <div class="section-head"><h2>标准查询</h2><span class="note">国家/行业/计量等标准入口</span></div>
+      <div class="grid">
+        <div class="card"><div class="title"><a href="http://www.csres.com/" target="_blank" rel="noopener">标准网 CSRES</a></div><div class="desc">标准检索与资讯</div></div>
+        <div class="card"><div class="title"><a href="https://openstd.samr.gov.cn/bzgk/gb/" target="_blank" rel="noopener">国家标准全文公开系统</a></div><div class="desc">SAMR · 国标公开</div></div>
+        <div class="card"><div class="title"><a href="http://jjg.spc.org.cn/resmea/view/index#" target="_blank" rel="noopener">计量检定规程数据库</a></div><div class="desc">JJG/JJF 等检索</div></div>
+        <div class="card"><div class="title"><a href="http://jtst.mot.gov.cn/search/std?q=" target="_blank" rel="noopener">交通运输行业标准查询</a></div><div class="desc">MOT · JT/T 等</div></div>
+        <div class="card"><div class="title"><a href="http://www.jsjlw.com/flfg/flfg2.aspx" target="_blank" rel="noopener">计量法规·文件汇编</a></div><div class="desc">法规与政策汇总</div></div>
+      </div>
+    </section>
+
+    <!-- 项目管理 -->
+    <section id="proj">
+      <div class="section-head"><h2>项目管理</h2><span class="note">基金/部委平台</span></div>
+      <div class="grid">
+        <div class="card"><div class="title"><a href="https://grants.nsfc.gov.cn/" target="_blank" rel="noopener">国家自然科学基金信息系统</a></div><div class="desc">NSFC</div></div>
+        <div class="card"><div class="title"><a href="https://service.most.gov.cn/" target="_blank" rel="noopener">科技部政务服务平台</a></div><div class="desc">MOST · 项目管理与服务</div></div>
+      </div>
+    </section>
+
+    <!-- 重要期刊 -->
+    <section id="journals">
+      <div class="section-head"><h2>重要期刊</h2><span class="note">交通/安全/工程方向</span></div>
+      <div class="grid">
+        <div class="card"><div class="title"><a href="http://zgglxb.chd.edu.cn/" target="_blank" rel="noopener">中国公路学报</a></div><div class="desc">中文核心 · 交通工程</div></div>
+        <div class="card"><div class="title"><a href="http://www.gljtkj.com/" target="_blank" rel="noopener">公路交通科技</a></div><div class="desc">中文核心 · 交通工程</div></div>
+        <div class="card"><div class="title"><a href="https://www.editorialmanager.com/trr/default.aspx" target="_blank" rel="noopener">Transportation Research Record (TRR) · EM</a></div><div class="desc">TRB 官方期刊 · 投稿系统</div></div>
+        <div class="card"><div class="title"><a href="https://academic.oup.com/tse?login=false" target="_blank" rel="noopener">Transportation Safety and Environment (TSE)</a></div><div class="desc">OUP 平台</div></div>
+        <div class="card"><div class="title"><a href="https://www.editorialmanager.com/jtte/default1.aspx" target="_blank" rel="noopener">Journal of Traffic and Transportation Engineering (English Edition) · EM</a></div><div class="desc">Elsevier/EM 投稿入口</div></div>
+      </div>
+    </section>
+
+    <!-- 发表论文（示例条目） -->
+    <section id="pubs">
+      <div class="section-head"><h2>发表论文</h2><span class="note">你已发表或常用参考的论文快速入口</span></div>
+      <div class="grid">
+        <div class="card"><div class="title"><a href="http://zgglxb.chd.edu.cn/CN/10.19721/j.cnki.1001-7372.2022.05.020" target="_blank" rel="noopener">中国公路学报 · 2022.05.020</a></div><div class="desc">期刊官网条目</div></div>
+        <div class="card"><div class="title"><a href="https://doi.org/10.1093/tse/tdac039" target="_blank" rel="noopener">TSE · 10.1093/tse/tdac039</a></div><div class="desc">OUP · DOI 跳转</div></div>
+        <div class="card"><div class="title"><a href="https://doi.org/10.1177/03611981221145135" target="_blank" rel="noopener">TRR · 10.1177/03611981221145135</a></div><div class="desc">SAGE · DOI 跳转</div></div>
+      </div>
+    </section>
+
+    <!-- 文件交互 -->
+    <section id="files">
+      <div class="section-head"><h2>文件交互</h2><span class="note">即时传文件 / 私有盘</span></div>
+      <div class="grid">
+        <div class="card"><div class="title"><a href="https://filehelper.weixin.qq.com/" target="_blank" rel="noopener">微信文件传输助手（Web）</a></div><div class="desc">跨设备临时传文件</div></div>
+        <div class="card"><div class="title"><a href="http://quickconnect.cn/floder224/" target="_blank" rel="noopener">私有文件入口</a></div><div class="desc">你的私有目录（按需更换）</div></div>
+      </div>
+    </section>
+
+    <!-- 人工智能 -->
+    <section id="ai">
+      <div class="section-head"><h2>人工智能</h2><span class="note">常用大模型入口</span></div>
+      <div class="grid">
+        <div class="card"><div class="title"><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a></div><div class="desc">对话式研究助手</div></div>
+        <div class="card"><div class="title"><a href="https://deepseek.com/" target="_blank" rel="noopener">DeepSeek</a></div><div class="desc">推理与搜索增强</div></div>
+        <div class="card"><div class="title"><a href="https://gemini.google.com/" target="_blank" rel="noopener">Google Gemini</a></div><div class="desc">多模态助手</div></div>
+      </div>
+    </section>
+
+    <!-- 其他工具 -->
+    <section id="misc">
+      <div class="section-head"><h2>其他工具</h2><span class="note">画图 / 术语 / 代码托管</span></div>
+      <div class="grid">
+        <div class="card"><div class="title"><a href="https://app.diagrams.net/" target="_blank" rel="noopener">diagrams.net</a></div><div class="desc">流程图与体系图</div></div>
+        <div class="card"><div class="title"><a href="https://www.termonline.cn/index/" target="_blank" rel="noopener">术语在线</a></div><div class="desc">权威术语查询</div></div>
+        <div class="card"><div class="title"><a href="https://github.com/" target="_blank" rel="noopener">GitHub</a></div><div class="desc">代码与协作</div></div>
+      </div>
+    </section>
+
+    <footer>
+      <div>— 纯静态页面 · 适配 GitHub Pages —</div>
+    </footer>
+  </main>
+
+  <script>
+    // ======= 全局搜索聚合 =======
+    const q = document.getElementById('q');
+    const engine = document.getElementById('engine');
+    const go = document.getElementById('go');
+
+    function buildURL(eng, term){
+      const t = encodeURIComponent(term.trim());
+      switch(eng){
+        case 'google': return `https://www.google.com/search?q=${t}`;
+        case 'scholar': return `https://scholar.google.com/scholar?q=${t}`;
+        case 'baidu_xueshu': return `https://xueshu.baidu.com/s?wd=${t}`;
+        case 'arxiv': return `https://arxiv.org/search/?query=${t}&searchtype=all&source=header`;
+        default: return `https://www.google.com/search?q=${t}`;
+      }
+    }
+    function doSearch(){
+      const term = q.value;
+      if(!term.trim()){
+        q.focus();
+        q.setAttribute('aria-invalid','true');
+        return;
+      }
+      window.open(buildURL(engine.value, term), '_blank', 'noopener');
+    }
+    go.addEventListener('click', doSearch);
+    q.addEventListener('keydown', (e)=>{ if(e.key==='Enter') doSearch(); });
+    // 快捷键 / 聚焦搜索
+    window.addEventListener('keydown', e=>{
+      if(e.key === '/' && !/input|textarea|select/i.test(document.activeElement.tagName)){
+        e.preventDefault(); q.focus();
+      }
+    });
+
+    // ======= DOI → GB/T 7714（近似） =======
+    const doiInput = document.getElementById('doi-input');
+    const citeOut = document.getElementById('cite-output');
+    const doiFetch = document.getElementById('doi-fetch');
+    const doiCopy = document.getElementById('doi-copy');
+
+    function normAuthor(name){
+      // Crossref 给出 "family" 与 "given"，此处近似转换：姓在前，名取首字母大写，不带点
+      if(!name) return '';
+      const fam = (name.family||'').trim();
+      const given = (name.given||'').trim();
+      const initials = given.split(/[\s-]+/).filter(Boolean).map(s=>s[0].toUpperCase()).join('');
+      return `${fam} ${initials}`.trim();
+    }
+    function joinAuthors(list){
+      if(!list || !list.length) return '';
+      const arr = list.slice(0,20).map(normAuthor); // 最多取 20 位
+      if(arr.length <= 3) return arr.join(', ');
+      return arr.slice(0,3).join(', ') + ', et al.'; // GB/T 严格规则更复杂，此处做友好近似
+    }
+    function fmtPages(page){
+      if(!page) return '';
+      if(/^[0-9]+-[0-9]+$/.test(page)) return page;
+      return page.replace(/,\s*/g,'-');
+    }
+    function toGBTTxt(meta){
+      const A = joinAuthors(meta.author);
+      const year = (meta['published-print']?.['date-parts']?.[0]?.[0]) || (meta['published-online']?.['date-parts']?.[0]?.[0]) || meta.created?.['date-parts']?.[0]?.[0] || '';
+      const title = (meta.title?.[0]||'').replace(/\s+/g,' ').trim();
+      const journal = (meta['container-title']?.[0]||'').trim();
+      const vol = meta.volume || '';
+      const issue = meta.issue || meta['journal-issue']?.issue || '';
+      const pages = fmtPages(meta.page||'');
+      const doi = meta.DOI ? `DOI:${meta.DOI}` : '';
+      // 近似的 GB/T 7714（期刊[J]）：作者. 题名[J]. 刊名, 年, 卷(期): 起-止页. DOI
+      const segs = [
+        A ? A + '.' : '',
+        title ? ` ${title}[J].` : '',
+        journal ? ` ${journal},` : '',
+        year ? ` ${year},` : '',
+        vol ? ` ${vol}` : '',
+        issue ? `(${issue})` : '',
+        pages ? `: ${pages}.` : '.',
+        doi ? ` ${doi}` : ''
+      ];
+      return segs.join('').replace(/\s{2,}/g,' ').trim();
+    }
+    async function fetchDOI(){
+      const raw = (doiInput.value||'').trim().replace(/^https?:\/\/(dx\.)?doi\.org\//i,'');
+      if(!raw){ doiInput.focus(); return; }
+      citeOut.value = '检索中…';
+      try{
+        const resp = await fetch(`https://api.crossref.org/works/${encodeURIComponent(raw)}`);
+        if(!resp.ok) throw new Error('Crossref API 返回异常');
+        const data = await resp.json();
+        const meta = data.message || {};
+        citeOut.value = toGBTTxt(meta);
+      }catch(err){
+        citeOut.value = `未能获取该 DOI 的元数据：${err.message}\n你仍可手动编辑此框或改试其他 DOI。`;
+      }
+    }
+    doiFetch.addEventListener('click', fetchDOI);
+    doiInput.addEventListener('keydown', e=>{ if(e.key==='Enter') fetchDOI(); });
+    doiCopy.addEventListener('click', ()=>{
+      citeOut.select(); document.execCommand('copy');
+      doiCopy.textContent = '已复制'; setTimeout(()=>doiCopy.textContent='复制', 1200);
+    });
+  </script>
+
+  <!--
+  部署到 GitHub Pages：
+  1) 新建仓库（Public），命名随意，例如 scholar-dock。
+  2) 提交本文件为 index.html。
+  3) 打开 Settings → Pages → Source 选择 "Deploy from a branch"，分支 main，目录 /root。
+  4) 保存后等待几分钟，访问 Pages 提供的 URL 即可。
+
+  后续可按你的需求继续扩展：
+  - 在上述 <section> 中添加更多链接卡片；
+  - 如需分离 CSS/JS，创建 styles.css 与 main.js 并移出对应内容；
+  - 如需深色模式，可在 :root 定义暗色变量并用 data-theme 切换。
+  -->
+</body>
+</html>
